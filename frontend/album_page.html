@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigment 5 Album Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>ALBUMS</h1>
+    <div class = "tableContainer">
+    <table>
+        <thead>
+            <tr>
+                <th>Album ID</th>
+                <th>Title</th>
+                <th>Release Year</th>
+                <th>No. of Listens</th>
+                <th>Artist ID</th>
+            </tr>
+        </thead>
+        <tbody id = "albumTable">
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><input type="number" id="albumID" placeholder="Album ID"></td>
+            <td><input type="text" id="albumTitle" placeholder="Title"></td>
+            <td><input type="text" id="albumRelease_year" placeholder="Release Year"></td>
+            <td><input type="number" id="albumListens" placeholder="Listens"></td>
+            <td><input type="number" id="artistID" placeholder="Artist ID"></td>
+        </tr>
+    </tfoot>
+    </table>
+        <div class = "buttonSection">
+            <button onclick = "createAlbum()">Create</button>
+            <button onclick = "updateAlbum()">Update</button>
+            <button onclick = "deleteAlbum()">Delete</button>
+        </div>
+  </div>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>

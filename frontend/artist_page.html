@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigment 5 Artist Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>ARTISTS</h1>
+    
+<div class = "tableContainer">
+    <table>
+        <thead>
+            <tr>
+                <th>Artist ID</th>
+                <th>Artist Name</th>
+                <th>Genre</th>
+                <th>No. of Monthly Listeners</th>
+            </tr>
+        </thead>
+        <tbody id = "artistTable">
+        </tbody>
+    <tfoot>
+        <tr>
+            <td><input type="number" id="artistID" placeholder="Artist ID"></td>
+            <td><input type="text" id="artistName" placeholder="Name"></td>
+            <td><input type="text" id="artistGenre" placeholder="Genre"></td>
+            <td><input type="number" id="artistListeners" placeholder="Listeners"></td>
+        </tr>
+    </tfoot>
+    
+    </table>
+      
+    <div class = "buttonSection">
+            <button onclick = "createArtist()">Create</button>
+            <button onclick = "updateArtist()">Update</button>
+            <button onclick = "deleteArtist()">Delete</button>
+        </div>
+</div>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>

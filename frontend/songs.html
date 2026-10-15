@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigment 5 Songs Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>SONGS</h1>
+    <div class = "tableContainer">
+    <table>
+        <thead>
+            <tr>
+                <th>Song ID</th>
+                <th>Title</th>
+                <th>Release Year</th>
+                <th>Artist ID</th>
+                <th>Album ID</th>
+            </tr>
+        </thead>
+        <tbody id = songTable>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><input type="number" id="songID" placeholder="Song ID"></td>
+            <td><input type="text" id="songTitle" placeholder="Title"></td>
+            <td><input type="number" id="songRelease_year" placeholder="Release Year"></td>
+            <td><input type="number" id="artistID" placeholder="Artist ID"></td>
+            <td><input type="number" id="albumID" placeholder="Album ID"></td>
+        </tr>
+    </tfoot>
+    </table>
+
+    <div class = "buttonSection">
+            <button onclick = "createSong()">Create</button>
+            <button onclick = "updateSong()">Update</button>
+            <button onclick = "deleteSong()">Delete</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
