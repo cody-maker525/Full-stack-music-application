@@ -4,12 +4,13 @@ const api = 'http://localhost:3000';
 function loadArtists() {
     fetch(`${api}/artists`).then(res => res.json()).then(data => {
         const tbody = document.getElementById('artistTable');
-        if (!tbody) return; //if doesnt exist, stop
-        // tbody.innerHTML = ''; //set empty first
+        if (!tbody) return;
+
+        tbody.innerHTML = ''; //set empty first
         data.forEach(artists => {
             tbody.innerHTML += `
             <tr>
-                <td>${artists.id}</td>
+                <td>${artists.artist_id}</td>
                 <td>${artists.name}</td>
                 <td>${artists.genre}</td>
                 <td>${artists.monthly_listeners}</td>
@@ -28,6 +29,7 @@ function fillArtistForm(id, name, genre, monthly_listeners) {
 }
 
 function createArtist() {
+    const id = document.getElementById('artistID').value;
     const name = document.getElementById('artistName').value;
     const genre = document.getElementById('artistGenre').value;
     const monthly_listeners = document.getElementById('artistListeners').value;
@@ -36,7 +38,7 @@ function createArtist() {
     fetch(`${api}/artists`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ name, genre, monthly_listeners })
+        body: JSON.stringify({ id, name, genre, monthly_listeners })
     }).then(() => loadArtists());
 }
 
@@ -51,7 +53,7 @@ function updateArtist() {
     fetch(`${api}/artists/${id}`, {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ name, genre, monthly_listeners })
+        body: JSON.stringify({ id, name, genre, monthly_listeners })
     }).then(() => loadArtists());
 
 
@@ -67,25 +69,17 @@ function deleteArtist() {
 
 
 // //ALBUMS -----------------------------------------------------------------------------------------------------
-// CREATE TABLE IF NOT EXISTS albums(
-//     id INTEGER PRIMARY KEY AUTOINCREMENT ,
-//     title TEXT NOT NULL,
-//     release_year INTEGER NOT NULL,
-//     no_listens INTEGER NOT NULL,
-//     artist_id INTEGER NOT NULL,
-//     FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE
-// );
 
 
 function loadAlbums() {
     fetch(`${api}/albums`).then(res => res.json()).then(data => {
         const tbody = document.getElementById('albumTable');
         if (!tbody) return; //if doesnt exist, stop
-        // tbody.innerHTML = ''; //set empty first
+        tbody.innerHTML = ''; //set empty first
         data.forEach(albums => {
             tbody.innerHTML += `
             <tr>
-                <td>${albums.id}</td>
+                <td>${albums.album_id}</td>
                 <td>${albums.title}</td>
                 <td>${albums.release_year}</td>
                 <td>${albums.no_listens}</td>
@@ -114,7 +108,7 @@ function createAlbum() {
     fetch(`${api}/albums`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ title, release_year, no_listens, artist_id })
+        body: JSON.stringify({ id, title, release_year, no_listens, artist_id })
     }).then(() => loadAlbums());
 }
 
@@ -128,7 +122,7 @@ function updateAlbum() {
     fetch(`${api}/albums/${id}`, {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ title, release_year, no_listens, artist_id })
+        body: JSON.stringify({ id, title, release_year, no_listens, artist_id })
     }).then(() => loadAlbums());
 }
 
@@ -140,16 +134,7 @@ function deleteAlbum() {
 }
 
 // //SONGS ------------------------------------------------------------------------------------------------
-// CREATE TABLE IF NOT EXISTS songs(
-//     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     title TEXT NOT NULL,
-//     release_year INTEGER NOT NULL,
-//     artist_id INTEGER NOT NULL,
-//     album_id INTEGER NOT NULL,
-//     FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE,
-//     FOREIGN KEY (album_id) REFERENCES albums(id) ON DELETE CASCADE
 
-// );
 function loadSongs() {
     fetch(`${api}/songs`).then(res => res.json()).then(data => {
         const tbody = document.getElementById('songTable');
@@ -158,7 +143,7 @@ function loadSongs() {
         data.forEach(songs => {
             tbody.innerHTML += `
             <tr>
-                <td>${songs.id}</td>
+                <td>${songs.song_id}</td>
                 <td>${songs.title}</td>
                 <td>${songs.release_year}</td>
                 <td>${songs.artist_id}</td>
@@ -187,7 +172,7 @@ function createSong() {
     fetch(`${api}/songs`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ title, release_year, artist_id, album_id })
+        body: JSON.stringify({ id, title, release_year, artist_id, album_id })
     }).then(() => loadSongs());
 }
 
@@ -202,7 +187,7 @@ function updateSong() {
     fetch(`${api}/songs/${id}`, {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ title, release_year, artist_id, album_id })
+        body: JSON.stringify({ id, title, release_year, artist_id, album_id })
     }).then(() => loadSongs());
 }
 

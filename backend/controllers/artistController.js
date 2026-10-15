@@ -13,8 +13,8 @@ const getAll = (req, res) => { //DEFINES A ROUTE
 //GET BY ID
 
 const getOne = (req, res) => {
-    const id = req.params.id;
-    db.get('SELECT * FROM artists WHERE id =?', [id], (err, row) => {
+    const artist_id = req.params.id;
+    db.get('SELECT * FROM artists WHERE artist_id =?', [artist_id], (err, row) => {
         if (err) {
             res.status(500).json({ error: err.message });
         } else if (!row) {
@@ -27,10 +27,10 @@ const getOne = (req, res) => {
 
 //TO UPDATE
 const updateOne = (req, res) => {
-    const id = req.params.id;
+    const artist_id = req.params.id;
     const { name, genre, monthly_listeners } = req.body; // shortcut to writing out each variable
     //this is to make sure it exists
-    db.get("SELECT * FROM artists WHERE id = ?", [id], function (err, row) {
+    db.get("SELECT * FROM artists WHERE artist_id = ?", [artist_id], function (err, row) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -38,8 +38,8 @@ const updateOne = (req, res) => {
             return res.status(404).json({ error: "404 artist not found" });
         }
 
-        db.run("UPDATE artists SET name=?, genre=?,monthly_listeners=? WHERE id =?",
-            [name, genre, monthly_listeners, id], function (err) {
+        db.run("UPDATE artists SET artist_id=?, name=?, genre=?,monthly_listeners=? WHERE artist_id =?",
+            [artist_id, name, genre, monthly_listeners, artist_id], function (err) {
                 if (err) {
                     res.status(500).json({ error: err.message });
                 }
@@ -52,24 +52,24 @@ const updateOne = (req, res) => {
 //TO CREATE
 const createOne = (req, res) => {
 
-    const { name, genre, monthly_listeners } = req.body; // shortcut to writing out each variable
+    const { artist_id, name, genre, monthly_listeners } = req.body; // shortcut to writing out each variable
     //to insert
     db.run(
-        "INSERT INTO artists (name, genre, monthly_listeners) VALUES (?,?,?)",
-        [name, genre, monthly_listeners], function (err) {
+        "INSERT INTO artists (artist_id, name, genre, monthly_listeners) VALUES (?,?,?,?)",
+        [artist_id, name, genre, monthly_listeners], function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
             console.log("New artist inserted");
-            return res.status(201).json({ id: this.lastID });
+            return res.status(201).json({ artist_id: this.lastID });
         });
 };
 
 //TO DELETE
 const deleteOne = (req, res) => {
-    const id = req.params.id;
-    db.run("DELETE FROM artists WHERE id=?",
-        [id], function (err) {
+    const artist_id = req.params.id;
+    db.run("DELETE FROM artists WHERE artist_id=?",
+        [artist_id], function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }

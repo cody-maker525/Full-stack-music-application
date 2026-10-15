@@ -4,7 +4,7 @@ const sqlite3 = require("sqlite3").verbose(); // import sqlite
 const fs = require("fs");
 const path = require("path");
 
-const db = new sqlite3.Database('../controllers/data/app.db', (err) => {
+const db = new sqlite3.Database(path.join(__dirname, "data", "app.db"), (err) => {
     if (err) {
         console.error(err.message);
     }

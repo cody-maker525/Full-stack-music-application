@@ -16,8 +16,8 @@ const getAll = (req, res) => { //DEFINES A ROUTE
 //GET BY ID
 
 const getOne = (req, res) => {
-    const id = req.params.id;
-    db.get('SELECT * FROM songs WHERE id =?', [id], (err, row) => {
+    const song_id = req.params.id;
+    db.get('SELECT * FROM songs WHERE song_id =?', [song_id], (err, row) => {
         if (err) {
             res.status(500).json({ error: err.message });
         } else if (!row) {
@@ -29,10 +29,10 @@ const getOne = (req, res) => {
 };
 
 const updateOne = (req, res) => {
-    const id = req.params.id;
+    const song_id = req.params.id;
     const { title, release_year, artist_id, album_id } = req.body; // shortcut to writing out each variable
     //this is to make sure it exists
-    db.get("SELECT * FROM songs WHERE id = ?", [id], function (err, row) {
+    db.get("SELECT * FROM songs WHERE song_id = ?", [song_id], function (err, row) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -40,8 +40,8 @@ const updateOne = (req, res) => {
             return res.status(404).json({ error: "404 song not found" });
         }
 
-        db.run("UPDATE songs SET title=?, release_year=?,artist_id=?, album_id=? WHERE id =?",
-            [title, release_year, artist_id, album_id, id], function (err) {
+        db.run("UPDATE songs SET song_id=?,title=?, release_year=?,artist_id=?, album_id=? WHERE song_id =?",
+            [song_id, title, release_year, artist_id, album_id, song_id], function (err) {
                 if (err) {
                     res.status(500).json({ error: err.message });
                 }
@@ -54,24 +54,24 @@ const updateOne = (req, res) => {
 //TO CREATE
 const createOne = (req, res) => {
 
-    const { title, release_year, artist_id, album_id } = req.body; // shortcut to writing out each variable
+    const { song_id, title, release_year, artist_id, album_id } = req.body; // shortcut to writing out each variable
     //to insert
     db.run(
-        "INSERT INTO songs (title, release_year, artist_id, album_id) VALUES (?,?,?,?)",
-        [title, release_year, artist_id, album_id], function (err) {
+        "INSERT INTO songs (song_id, title, release_year, artist_id, album_id) VALUES (?,?,?,?)",
+        [song_id, title, release_year, artist_id, album_id], function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
             console.log("New song inserted");
-            return res.status(201).json({ id: this.lastID });
+            return res.status(201).json({ song_id: this.lastID });
         });
 };
 
 //TO DELETE
 const deleteOne = (req, res) => {
-    const id = req.params.id;
-    db.run("DELETE FROM songs WHERE id=?",
-        [id], function (err) {
+    const song_id = req.params.id;
+    db.run("DELETE FROM songs WHERE song_id=?",
+        [song_id], function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
