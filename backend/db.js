@@ -7,6 +7,7 @@ const path = require("path");
 const db = new sqlite3.Database(path.join(__dirname, "data", "app.db"), (err) => {
     if (err) {
         console.error(err.message);
+        return;
     }
     else {
         console.log('Connected to SQLite3.');

@@ -3,10 +3,10 @@ const db = require('../db');
 const getAll = (req, res) => { //DEFINES A ROUTE
     db.all('SELECT * FROM artists', [], (err, rows) => {
         if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json(rows);
+            return res.status(500).json({ error: err.message });
         }
+        res.json(rows);
+
     });
 };
 
@@ -16,12 +16,12 @@ const getOne = (req, res) => {
     const artist_id = req.params.id;
     db.get('SELECT * FROM artists WHERE artist_id =?', [artist_id], (err, row) => {
         if (err) {
-            res.status(500).json({ error: err.message });
-        } else if (!row) {
-            res.status(404).json({ error: "Artist not found" });
-        } else {
-            res.json(row);
+            return res.status(500).json({ error: err.message });
+        } if (!row) {
+            return res.status(404).json({ error: "Artist not found" });
         }
+        res.json(row);
+
     });
 };
 
@@ -41,7 +41,7 @@ const updateOne = (req, res) => {
         db.run("UPDATE artists SET artist_id=?, name=?, genre=?,monthly_listeners=? WHERE artist_id =?",
             [artist_id, name, genre, monthly_listeners, artist_id], function (err) {
                 if (err) {
-                    res.status(500).json({ error: err.message });
+                    return res.status(500).json({ error: err.message });
                 }
                 console.log("Artist updated successfully");
                 res.json("Artist updated successfully");
@@ -56,12 +56,15 @@ const createOne = (req, res) => {
     //to insert
     db.run(
         "INSERT INTO artists (artist_id, name, genre, monthly_listeners) VALUES (?,?,?,?)",
-        [artist_id, name, genre, monthly_listeners], function (err) {
+        [artist_id, name, genre, monthly_listeners], function (err, rows) {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
+            if (!artist_id || !name || monthly_listeners == null) {
+                return res.status(400).json({ error: "Provide all details" });
+            }
             console.log("New artist inserted");
-            return res.status(201).json({ artist_id: this.lastID });
+            return res.status(201).json({ rows });
         });
 };
 

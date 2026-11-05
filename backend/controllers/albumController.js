@@ -1,6 +1,3 @@
-const express = require("express");
-const router = express.Router()
-
 const db = require('../db');
 
 const getAll = (req, res) => { //DEFINES A ROUTE
@@ -17,14 +14,13 @@ const getAll = (req, res) => { //DEFINES A ROUTE
 
 const getOne = (req, res) => {
     const album_id = req.params.id;
-    db.get('SELECT * FROM albums WHERE album_id =?', [album_id], (err, row) => {
+    db.get('SELECT * FROM albums WHERE album_id =? AND artist_id =?', [album_id], (err, row) => {
         if (err) {
-            res.status(500).json({ error: err.message });
-        } else if (!row) {
-            res.status(404).json({ error: "Album not found" });
-        } else {
-            res.json(row);
+            return res.status(500).json({ error: err.message });
+        } if (!row) {
+            return res.status(404).json({ error: "Album not found" });
         }
+        res.json(row);
     });
 };
 
@@ -33,18 +29,18 @@ const updateOne = (req, res) => {
     const album_id = req.params.id;
     const { title, release_year, no_listens, artist_id } = req.body; // shortcut to writing out each variable
     //this is to make sure it exists
-    db.get("SELECT * FROM albums WHERE album_id = ?", [artist_id], function (err, row) {
+    db.get("SELECT * FROM albums WHERE album_id = ?", [album_id], function (err, row) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
         if (!row) {
-            return res.status(404).json({ error: "404 artist not found" });
+            return res.status(404).json({ error: "404 album not found" });
         }
 
         db.run("UPDATE albums SET album_id=?, title=?, release_year=?, no_listens=?,artist_id=? WHERE album_id =?",
             [album_id, title, release_year, no_listens, artist_id, album_id], function (err) {
                 if (err) {
-                    res.status(500).json({ error: err.message });
+                    return res.status(500).json({ error: err.message });
                 }
                 console.log("Album updated successfully");
                 res.json("Album updated successfully");

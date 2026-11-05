@@ -22,9 +22,9 @@ app.get('/', (req, res) => { //DEFINES A ROUTE
 app.use('/artists', artistsRoutes);
 app.use('/albums', albumsRoutes);
 app.use('/songs', songsRoutes);
-
-
-
+app.use((req, res) => {
+    res.status(404).json({ error: "Route not found" });
+});
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");

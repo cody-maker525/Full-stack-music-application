@@ -1,6 +1,3 @@
-const express = require("express");
-const router = express.Router()
-
 const db = require('../db');
 
 const getAll = (req, res) => { //DEFINES A ROUTE
@@ -43,7 +40,7 @@ const updateOne = (req, res) => {
         db.run("UPDATE songs SET song_id=?,title=?, release_year=?,artist_id=?, album_id=? WHERE song_id =?",
             [song_id, title, release_year, artist_id, album_id, song_id], function (err) {
                 if (err) {
-                    res.status(500).json({ error: err.message });
+                    return res.status(500).json({ error: err.message });
                 }
                 console.log("Song updated successfully");
                 res.json("Song updated successfully");
@@ -57,7 +54,7 @@ const createOne = (req, res) => {
     const { song_id, title, release_year, artist_id, album_id } = req.body; // shortcut to writing out each variable
     //to insert
     db.run(
-        "INSERT INTO songs (song_id, title, release_year, artist_id, album_id) VALUES (?,?,?,?)",
+        "INSERT INTO songs (song_id, title, release_year, artist_id, album_id) VALUES (?,?,?,?,?)",
         [song_id, title, release_year, artist_id, album_id], function (err) {
             if (err) {
                 return res.status(500).json({ error: err.message });
